@@ -2,9 +2,8 @@ from elasticsearch import Elasticsearch
 import json
 from pprint import pprint
 
-twt_index = 'sss'
-twt_type = 'css'
-twt_topic = 'twt'
+twt_index = 'tweets'
+twt_type = 'capstone'
 
 
 def connect_elasticsearch():
