@@ -56,9 +56,9 @@ def conduct_countMinTopK(data, k):
 es = connect_elasticsearch()
 cm_sketch = CountMinSketch(1024, 3)
 if es is not None:
-    term_search = term_query("Trump")
-    bool_search = bool_query("SalGood69", "happy")
-    match_search = match_query("Trump")
+    term_search = term_query("2020chooselove")
+    bool_search = bool_query("2020chooselove", "happy")
+    match_search = match_query("trump")
     print("\n*****result of term query********\n")
     result1 = search(es, twt_index, json.dumps(term_search))
     print("\n*****result of bool query********\n")
