@@ -62,8 +62,7 @@ if es is not None:
             user = input("must have user:")
             text = input("must not have text:")
             print("\n*****result of bool query ********\n")
-            bool_search = bool_query(user,text)
-            search(es, twt_index, json.dumps(bool_query))
+            search(es, twt_index, json.dumps(bool_query(user, text))
         elif(cmd == '4'):
             cont = 0
             while True:
