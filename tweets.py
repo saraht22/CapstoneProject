@@ -6,6 +6,7 @@ from tweepy import Stream
 from tweepy.streaming import StreamListener
 from elasticsearch import Elasticsearch
 from owner_elasticsearch import *
+from kafka import KafkaProducer
 
 # Filter tweets with specific format
 def cleantweet(data):
@@ -26,16 +27,16 @@ class MyListener(StreamListener):
     def __init__(self, api):
         self.api = api
         self.count = 0
-
-    # self.producer = KafkaProducer(bootstrap_servers='localhost:9092')
+        self.producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
     def on_data(self, data):
         result = cleantweet(data)
-        if es is not None:
-            if create_index(es, twt_index):
-                out = store_record(es, twt_index, result)
-                print('Data indexed successfully')
-        self.count = self.count + 1
+        # if es is not None:
+        #     if create_index(es, twt_index):
+        #         out = store_record(es, twt_index, result)
+        #         print('Data indexed successfully')
+        # self.count = self.count + 1
+        self.producer.send(twt_topic, result)
         if (self.count > 1000):
             return False
         return True
@@ -45,7 +46,7 @@ class MyListener(StreamListener):
         return True
 
 
-es = connect_elasticsearch()
+#es = connect_elasticsearch()
 # Neccessary credentials required to aunthenticate the connection to access twitter from the API.
 consumer_key = '20mDwSArebE3pFRe5sVuSkIpz'
 consumer_secret = 'owjSWC1Se17f2T7Ju9nhobCcmNkaP0HX8NithD4YJrmoeHMYXb'
