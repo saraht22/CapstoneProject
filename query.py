@@ -2,27 +2,30 @@ from owner_elasticsearch import *
 from countminsketch import *
 import re
 from collections import Counter
-import json
 
-
+# Create a search instance in elastic search
 def search(es_object, index_name, search):
     res = es_object.search(index=index_name, body=search)
     pprint(res)
     return res
 
-
+# This function is the basic match all query, designed for querying all documents
 def query_all():
     return {"query": {"match_all": {}}}
 
-
+# This function is the match query, which use a string to match.
+# Note that this type of query matches all the words in this string.
+# For example, match "Hello World", then documents that contains "hello", "world" or both will be returned.
 def match_query(str):
     return {"query": {"match": {"text": str}}}
 
-
+# This function is the term query, which use a term to match.
+# Note that with the same example above, the results returned are only documents that contains "Hello World".
 def term_query(user):
     return {"query": {"term": {"user": user}}}
 
-
+# This function is the bool query, which uses bool logical to match.
+# This example returns documents that certain user name but not contain certain string.
 def bool_query(user, str):
     return {'query': {'bool': {
         'must': {
